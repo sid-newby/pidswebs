@@ -107,16 +107,13 @@ export default function ReprographicsSection() {
               Reprographics Capabilities
             </h3>
             <div className="aspect-video rounded-xl overflow-hidden neumorphic-inset">
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-              >
-                <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                src="https://www.youtube.com/embed/PdIDXQ47DBc?si=dLSc0R9hnqjOyl8d"
+                title="Reprographics Capabilities"
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>

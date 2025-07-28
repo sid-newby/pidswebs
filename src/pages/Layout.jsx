@@ -2,19 +2,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Menu, X, FileUp, Calendar } from "lucide-react";
+import { Menu, FileUp, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-export default function Layout({ children, currentPageName }) {
+export default function Layout({ children }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-
-  const navigationItems = [
-    { name: "Home", href: createPageUrl("Home") },
-    { name: "Send a File", href: createPageUrl("SendFile") },
-    { name: "Training", href: createPageUrl("Training") }
-  ];
 
   const scrollToSection = (sectionId) => {
     if (location.pathname !== createPageUrl("Home")) {
@@ -85,7 +79,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
-              <div className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-teal-600 bg-clip-text text-transparent">
+              <div className="text-4xl bg-gradient-to-r from-gray-800 to-teal-600 bg-clip-text text-transparent pr-1" style={{ fontFamily: 'Poppins', fontWeight: 800, letterSpacing: '-0.05em' }}>
                 PLATINUM IDS
               </div>
             </Link>
