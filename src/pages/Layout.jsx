@@ -5,6 +5,7 @@ import { createPageUrl } from "@/utils";
 import { Menu, FileUp, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Vapi from "@vapi-ai/web";
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -49,6 +50,32 @@ export default function Layout({ children }) {
 
   // Use isSpecialPage OR navbarScrolled for nav color logic
   const navIsScrolled = isSpecialPage || navbarScrolled;
+
+  // VAPI instance (singleton)
+  const vapiRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!vapiRef.current) {
+      try {
+        vapiRef.current = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to initialize VAPI:", e);
+      }
+    }
+  }, []);
+
+  // Start VAPI call on avatar click
+  const handleAgentClick = React.useCallback(() => {
+    if (vapiRef.current) {
+      try {
+        vapiRef.current.start(import.meta.env.VITE_VAPI_ASSISTANT_ID);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to start VAPI session:", e);
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-200">
@@ -111,10 +138,8 @@ export default function Layout({ children }) {
         <img
           src="/ai.gif"
           alt="AI Agent"
-          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full animate-agent-pulse"
-          style={{
-            pointerEvents: "none"
-          }}
+          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full animate-agent-pulse cursor-pointer"
+          onClick={handleAgentClick}
         />
         <style>
           {`
