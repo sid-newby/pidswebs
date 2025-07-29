@@ -108,9 +108,9 @@ export const teamsBackendService = {
     const endDateTime = `${date}T23:59:59`;
     
     try {
-      const BACKEND_API_URL = import.meta.env.VITE_TEAMS_BACKEND_URL || 'http://localhost:3001/api';
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
       
-      const response = await fetch(`${BACKEND_API_URL}/calendar-events?start=${startDateTime}&end=${endDateTime}`, {
+      const response = await fetch(`${API_BASE_URL}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
