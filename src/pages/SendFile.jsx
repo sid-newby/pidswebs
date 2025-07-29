@@ -26,8 +26,8 @@ export default function SendFile() {
         <Alert className="mb-6 border-teal-200 bg-teal-50">
           <AlertCircle className="h-4 w-4 text-teal-600" />
           <AlertDescription className="text-teal-800">
-            <strong>Important:</strong> Please compress large files before uploading. 
-            Keep this window open during upload. For files larger than 1GB, 
+            <strong>Important:</strong> Please compress large files before uploading.
+            Keep this window open during upload. For files larger than 1GB,
             please contact us for SFTP or hard drive delivery options.
           </AlertDescription>
         </Alert>
@@ -35,9 +35,9 @@ export default function SendFile() {
         {/* File Upload Iframe */}
         <Card className="neumorphic">
           <CardContent className="p-4">
-            <iframe 
-              src="https://files.platinumids.com/#/project/guest" 
-              width="100%" 
+            <iframe
+              src="https://files.platinumids.com/#/project/guest"
+              width="100%"
               height="1200"
               title="File Upload Tool"
               className="border-0 rounded-lg w-full"

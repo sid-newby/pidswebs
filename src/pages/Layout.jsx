@@ -129,11 +129,10 @@ export default function Layout({ children }) {
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed top-4 w-full z-50 transition-all duration-300 ${
-        navIsScrolled
+      <nav className={`fixed top-4 w-full z-50 transition-all duration-300 ${navIsScrolled
           ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg'
           : 'bg-transparent'
-      }`}>
+        }`}>
         {/* Agent Avatar */}
         <img
           src="/ai.gif"
@@ -161,47 +160,43 @@ export default function Layout({ children }) {
         </style>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          {/* Logo always present but invisible until scrolled */}
-          <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
-            <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${
-              navIsScrolled
-                ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent'
-                : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
-            } ${navIsScrolled ? '' : 'invisible'}`} style={{ fontFamily: 'Poppins', fontWeight: 700, letterSpacing: '-0.1em', textTransform: 'lowercase' }}>
-              platinum ids
-            </div>
-          </Link>
+            {/* Logo */}
+            {/* Logo always present but invisible until scrolled */}
+            <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
+              <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${navIsScrolled
+                  ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent'
+                  : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
+                } ${navIsScrolled ? '' : 'invisible'}`} style={{ fontFamily: 'Poppins', fontWeight: 700, letterSpacing: '-0.1em', textTransform: 'lowercase' }}>
+                platinum ids
+              </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <button
                 onClick={() => scrollToSection("services")}
-                className={`transition-colors duration-200 text-sm font-medium ${
-                  navIsScrolled
+                className={`transition-colors duration-200 text-sm font-medium ${navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
-                }`}
+                  }`}
               >
                 Services
               </button>
               <button
                 onClick={() => scrollToSection("team")}
-                className={`transition-colors duration-200 text-sm font-medium ${
-                  navIsScrolled
+                className={`transition-colors duration-200 text-sm font-medium ${navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
-                }`}
+                  }`}
               >
                 Team
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
-                className={`transition-colors duration-200 text-sm font-medium ${
-                  navIsScrolled
+                className={`transition-colors duration-200 text-sm font-medium ${navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
-                }`}
+                  }`}
               >
                 Contact
               </button>
@@ -215,11 +210,10 @@ export default function Layout({ children }) {
                 tabIndex={-1}
               >
                 <button
-                  className={`transition-colors duration-200 text-sm font-medium flex items-center gap-1 ${
-                    navIsScrolled
+                  className={`transition-colors duration-200 text-sm font-medium flex items-center gap-1 ${navIsScrolled
                       ? 'text-gray-700 hover:text-teal-600'
                       : 'text-white hover:text-cyan-300 drop-shadow-sm'
-                  }`}
+                    }`}
                   aria-haspopup="true"
                   aria-expanded={reviewOpen ? "true" : "false"}
                   onClick={() => setReviewOpen((v) => !v)}
@@ -244,32 +238,29 @@ export default function Layout({ children }) {
                 href="https://platinumids.com/blog/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`transition-colors duration-200 text-sm font-medium ${
-                  navIsScrolled
+                className={`transition-colors duration-200 text-sm font-medium ${navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
-                }`}
+                  }`}
               >
                 Blog
               </a>
               <Link
                 to={createPageUrl("SendFile")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${
-                  navIsScrolled
+                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${navIsScrolled
                     ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
-                }`}
+                  }`}
               >
                 <FileUp className="w-4 h-4" />
                 Send File
               </Link>
               <Link
                 to={createPageUrl("Training")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${
-                  navIsScrolled
+                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${navIsScrolled
                     ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
-                }`}
+                  }`}
               >
                 <Calendar className="w-4 h-4" />
                 Training
@@ -280,9 +271,8 @@ export default function Layout({ children }) {
             <div className="md:hidden">
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className={`transition-colors duration-300 ${
-                    navIsScrolled ? 'text-gray-700' : 'text-white'
-                  }`}>
+                  <Button variant="ghost" size="icon" className={`transition-colors duration-300 ${navIsScrolled ? 'text-gray-700' : 'text-white'
+                    }`}>
                     <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
@@ -364,7 +354,7 @@ export default function Layout({ children }) {
             <div>
               <h3 className="text-xl font-bold text-gray-800 mb-4">Platinum IDS</h3>
               <p className="text-gray-600 leading-relaxed">
-                Leveling the playing field for firms of all sizes through technology-driven eDiscovery, 
+                Leveling the playing field for firms of all sizes through technology-driven eDiscovery,
                 data science, and reprographic services.
               </p>
             </div>
