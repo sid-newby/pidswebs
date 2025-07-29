@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 
 export default function HeroSection() {
   const starsRef = useRef(null);
+  const heroRef = useRef(null);
 
   const scrollToServices = () => {
     const element = document.getElementById("services");
@@ -36,11 +37,27 @@ export default function HeroSection() {
       setTimeout(createStar, i * 80);
     }
 
-    return () => clearInterval(interval);
+    // Parallax effect
+    const handleScroll = () => {
+      if (!heroRef.current) return;
+      
+      const scrolled = window.pageYOffset;
+      const parallaxSpeed = 0.5;
+      
+      // Move background slower than scroll for parallax effect
+      heroRef.current.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section ref={heroRef} className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Starry sky effect */}
       <div ref={starsRef} className="absolute inset-0 pointer-events-none z-0">
         <style dangerouslySetInnerHTML={{

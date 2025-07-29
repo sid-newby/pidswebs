@@ -10,6 +10,17 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 export default function Layout({ children }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [navbarScrolled, setNavbarScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 50;
+      setNavbarScrolled(scrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId) => {
     if (location.pathname !== createPageUrl("Home")) {
@@ -75,12 +86,20 @@ export default function Layout({ children }) {
       </style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-gray-200 border-b border-gray-300">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        navbarScrolled 
+          ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg' 
+          : 'bg-transparent'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
-              <div className="text-4xl bg-gradient-to-r from-gray-800 to-teal-600 bg-clip-text text-transparent pr-1" style={{ fontFamily: 'Poppins', fontWeight: 800, letterSpacing: '-0.05em' }}>
+              <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${
+                navbarScrolled 
+                  ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent' 
+                  : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
+              }`} style={{ fontFamily: 'Poppins', fontWeight: 800, letterSpacing: '-0.05em' }}>
                 PLATINUM IDS
               </div>
             </Link>
@@ -89,32 +108,52 @@ export default function Layout({ children }) {
             <div className="hidden md:flex items-center space-x-8">
               <button
                 onClick={() => scrollToSection("services")}
-                className="text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium"
+                className={`transition-colors duration-200 font-medium ${
+                  navbarScrolled 
+                    ? 'text-gray-700 hover:text-teal-600' 
+                    : 'text-white hover:text-cyan-300 drop-shadow-sm'
+                }`}
               >
                 Services
               </button>
               <button
                 onClick={() => scrollToSection("team")}
-                className="text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium"
+                className={`transition-colors duration-200 font-medium ${
+                  navbarScrolled 
+                    ? 'text-gray-700 hover:text-teal-600' 
+                    : 'text-white hover:text-cyan-300 drop-shadow-sm'
+                }`}
               >
                 Team
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium"
+                className={`transition-colors duration-200 font-medium ${
+                  navbarScrolled 
+                    ? 'text-gray-700 hover:text-teal-600' 
+                    : 'text-white hover:text-cyan-300 drop-shadow-sm'
+                }`}
               >
                 Contact
               </button>
               <Link
                 to={createPageUrl("SendFile")}
-                className="neumorphic-button px-4 py-2 rounded-lg text-gray-800 font-medium flex items-center gap-2"
+                className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
+                  navbarScrolled 
+                    ? 'neumorphic-button text-gray-800' 
+                    : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
+                }`}
               >
                 <FileUp className="w-4 h-4" />
                 Send File
               </Link>
               <Link
                 to={createPageUrl("Training")}
-                className="neumorphic-button px-4 py-2 rounded-lg text-gray-800 font-medium flex items-center gap-2"
+                className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
+                  navbarScrolled 
+                    ? 'neumorphic-button text-gray-800' 
+                    : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
+                }`}
               >
                 <Calendar className="w-4 h-4" />
                 Training
@@ -125,7 +164,9 @@ export default function Layout({ children }) {
             <div className="md:hidden">
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-gray-700">
+                  <Button variant="ghost" size="icon" className={`transition-colors duration-300 ${
+                    navbarScrolled ? 'text-gray-700' : 'text-white'
+                  }`}>
                     <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
