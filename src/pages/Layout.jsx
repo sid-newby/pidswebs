@@ -93,16 +93,17 @@ export default function Layout({ children }) {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
-              <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${
-                navbarScrolled 
-                  ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent' 
-                  : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
-              }`} style={{ fontFamily: 'Poppins', fontWeight: 800, letterSpacing: '-0.05em' }}>
-                PLATINUM IDS
-              </div>
-            </Link>
+          {/* Logo */}
+          {/* Logo always present but invisible until scrolled */}
+          <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
+            <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${
+              navbarScrolled 
+                ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent' 
+                : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
+            } ${navbarScrolled ? '' : 'invisible'}`} style={{ fontFamily: 'Poppins', fontWeight: 700, letterSpacing: '-0.1em', textTransform: 'lowercase' }}>
+              platinum ids
+            </div>
+          </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">

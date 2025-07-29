@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 
 export default function HeroSection() {
   const starsRef = useRef(null);
-  const heroRef = useRef(null);
 
   const scrollToServices = () => {
     const element = document.getElementById("services");
@@ -37,27 +36,13 @@ export default function HeroSection() {
       setTimeout(createStar, i * 80);
     }
 
-    // Parallax effect
-    const handleScroll = () => {
-      if (!heroRef.current) return;
-      
-      const scrolled = window.pageYOffset;
-      const parallaxSpeed = 0.5;
-      
-      // Move background slower than scroll for parallax effect
-      heroRef.current.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    
     return () => {
       clearInterval(interval);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <section ref={heroRef} className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section className="min-h-screen bg-[url('/bg.svg')] bg-cover bg-center flex items-end justify-start pl-16 pr-0 pb-16 relative overflow-hidden">
       {/* Starry sky effect */}
       <div ref={starsRef} className="absolute inset-0 pointer-events-none z-0">
         <style dangerouslySetInnerHTML={{
@@ -118,14 +103,7 @@ export default function HeroSection() {
         }} />
       </div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight mb-8 drop-shadow-lg">
-          All truths are easy to understand once they are discovered. 
-          <span className="block mt-4 text-cyan-400 font-medium">
-            The point is to discover them.
-          </span>
-        </h1>
-        
+      <div className="max-w-4xl text-left relative z-10">
         <div className="mb-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 drop-shadow-md">
             We Are Platinum
