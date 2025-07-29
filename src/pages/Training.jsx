@@ -119,7 +119,7 @@ export default function Training() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-200 py-12 px-4 sm:px-6 lg:px-8 mt-[10vh]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -146,7 +146,7 @@ export default function Training() {
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-8">
                 Get the most out of your eDiscovery platforms with comprehensive training programs 
-                designed by experts. Whether you&apos;re new to these tools or looking to advance your skills,
+                designed by experts. Whether you're new to these tools or looking to advance your skills,
                 our training will help you work more efficiently and effectively.
               </p>
               <div className="grid md:grid-cols-3 gap-6 text-center">
@@ -261,14 +261,14 @@ export default function Training() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 mb-6 text-sm">
-                  Have questions about our training programs? Send us a message and we&apos;ll respond quickly.
+                  Have questions about our training programs? Send us a message and we'll respond quickly.
                 </p>
 
                 {submitStatus === "success" && (
                   <Alert className="mb-6 border-green-200 bg-green-50">
                     <CheckCircle className="h-4 w-4 text-green-600" />
                     <AlertDescription className="text-green-800">
-                      Message sent! We&apos;ll get back to you soon.
+                      Message sent! We'll get back to you soon.
                     </AlertDescription>
                   </Alert>
                 )}
