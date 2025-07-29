@@ -107,6 +107,29 @@ export default function Layout({ children }) {
           ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg'
           : 'bg-transparent'
       }`}>
+        {/* Agent Avatar */}
+        <img
+          src="/ai.gif"
+          alt="AI Agent"
+          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full shadow-lg animate-agent-pulse"
+          style={{
+            pointerEvents: "none",
+            filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.15))"
+          }}
+        />
+        <style>
+          {`
+            @keyframes agentPulse {
+              0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.25);}
+              50% { transform: scale(1.08); box-shadow: 0 0 16px 8px rgba(13,148,136,0.10);}
+              100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.25);}
+            }
+            .animate-agent-pulse {
+              animation: agentPulse 2.2s infinite cubic-bezier(0.4,0,0.2,1);
+              transition: box-shadow 0.3s;
+            }
+          `}
+        </style>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
