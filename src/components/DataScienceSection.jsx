@@ -37,20 +37,20 @@ export default function DataScienceSection() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <div className="neumorphic-inset rounded-xl p-4 text-center">
                 <Brain className="w-8 h-8 text-teal-600 mx-auto mb-2" />
-                <h4 className="font-semibold text-gray-800">AI-Powered</h4>
+                <h4 className="font-semibold text-gray-800">AI-Aware</h4>
                 <p className="text-sm text-gray-600">Machine learning algorithms</p>
               </div>
               
               <div className="neumorphic-inset rounded-xl p-4 text-center">
                 <TrendingUp className="w-8 h-8 text-teal-600 mx-auto mb-2" />
                 <h4 className="font-semibold text-gray-800">Predictive</h4>
-                <p className="text-sm text-gray-600">Advanced analytics</p>
+                <p className="text-sm text-gray-600">Beautiful Advanced Analytics</p>
               </div>
               
               <div className="neumorphic-inset rounded-xl p-4 text-center">
                 <Cpu className="w-8 h-8 text-teal-600 mx-auto mb-2" />
                 <h4 className="font-semibold text-gray-800">Custom</h4>
-                <p className="text-sm text-gray-600">Tailored algorithms</p>
+                <p className="text-sm text-gray-600">Tailored Powerful Algorithms</p>
               </div>
             </div>
 
