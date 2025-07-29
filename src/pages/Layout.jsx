@@ -1,4 +1,3 @@
-
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
@@ -86,7 +85,7 @@ export default function Layout({ children }) {
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      <nav className={`fixed top-4 w-full z-50 transition-all duration-300 ${
         navbarScrolled 
           ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg' 
           : 'bg-transparent'
