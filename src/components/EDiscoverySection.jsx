@@ -53,7 +53,7 @@ export default function EDiscoverySection() {
             </p>
 
             <button
-              onClick={() => scrollToSection("contact")}
+              onClick={() => scrollToSection("cost-confidence-video")}
               className="neumorphic-button px-8 py-4 rounded-xl text-gray-800 font-semibold text-lg inline-flex items-center gap-3 mb-8"
             >
               Learn about Cost Confidence
@@ -84,7 +84,7 @@ export default function EDiscoverySection() {
         </div>
 
         {/* Video Section */}
-        <div className="mt-16">
+        <div id="cost-confidence-video" className="mt-16">
           <div className="neumorphic rounded-2xl p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
               Cost Confidence Overview

@@ -43,13 +43,13 @@ export default function DataScienceSection() {
               
               <div className="neumorphic-inset rounded-xl p-4 text-center">
                 <TrendingUp className="w-8 h-8 text-teal-600 mx-auto mb-2" />
-                <h4 className="font-semibold text-gray-800">Predictive</h4>
+                <h4 className="font-semibold text-gray-800">Predict.</h4>
                 <p className="text-sm text-gray-600">Beautiful Advanced Analytics</p>
               </div>
               
               <div className="neumorphic-inset rounded-xl p-4 text-center">
                 <Cpu className="w-8 h-8 text-teal-600 mx-auto mb-2" />
-                <h4 className="font-semibold text-gray-800">Custom</h4>
+                <h4 className="font-semibold text-gray-800">Savage.</h4>
                 <p className="text-sm text-gray-600">Tailored Powerful Algorithms</p>
               </div>
             </div>
