@@ -1,5 +1,3 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, TrendingUp, Cpu } from "lucide-react";
 
 export default function DataScienceSection() {
@@ -29,7 +27,7 @@ export default function DataScienceSection() {
             </p>
             
             <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Our solutions don't just analyze data – they educate juries and motivate judges 
+              Our solutions don&apos;t just analyze data – they educate juries and motivate judges 
               by presenting complex information in clear, compelling visualizations that tell 
               your story effectively.
             </p>
