@@ -1,6 +1,19 @@
 import { ChevronDown } from "lucide-react";
+import React from "react";
 
 export default function HeroSection() {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    // Check on mount and on resize
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const scrollToServices = () => {
     const element = document.getElementById("services");
     if (element) {
@@ -10,13 +23,22 @@ export default function HeroSection() {
 
   return (
     <section className="min-h-screen flex items-end justify-start pl-16 pr-0 pb-16 relative overflow-hidden">
-      <video
-        src="/bg.webm"
-        autoPlay
-        muted
-        loop
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+      {isMobile ? (
+        <img
+          src="/mobile.svg"
+          alt="Mobile background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          draggable={false}
+        />
+      ) : (
+        <video
+          src="/bg.webm"
+          autoPlay
+          muted
+          loop
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      )}
 
       <div className="max-w-4xl text-left relative z-20">
         <div className="mb-8">

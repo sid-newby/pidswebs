@@ -13,13 +13,24 @@ export default function Layout({ children }) {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY > 50;
-      setNavbarScrolled(scrolled);
+      // Always scrolled on /Training or /SendFile, otherwise based on scroll
+      const isSpecialPage =
+        location.pathname.toLowerCase().includes("training") ||
+        location.pathname.toLowerCase().includes("sendfile");
+      if (isSpecialPage) {
+        setNavbarScrolled(true);
+      } else {
+        const scrolled = window.scrollY > 50;
+        setNavbarScrolled(scrolled);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Initial check
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [location.pathname]);
 
   const scrollToSection = (sectionId) => {
     if (location.pathname !== createPageUrl("Home")) {
