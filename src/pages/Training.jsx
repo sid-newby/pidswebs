@@ -152,7 +152,7 @@ export default function Training() {
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div className="neumorphic-inset rounded-xl p-4">
                   <Video className="w-8 h-8 text-teal-600 mx-auto mb-2" />
-                  <h4 className="font-semibold text-gray-800">Live Sessions</h4>
+                  <h4 className="font-semibold text-gray-800">Live</h4>
                   <p className="text-sm text-gray-600">Interactive training with experts</p>
                 </div>
                 <div className="neumorphic-inset rounded-xl p-4">
@@ -162,7 +162,7 @@ export default function Training() {
                 </div>
                 <div className="neumorphic-inset rounded-xl p-4">
                   <Calendar className="w-8 h-8 text-teal-600 mx-auto mb-2" />
-                  <h4 className="font-semibold text-gray-800">Flexible Scheduling</h4>
+                  <h4 className="font-semibold text-gray-800">Flexible</h4>
                   <p className="text-sm text-gray-600">Training that fits your schedule</p>
                 </div>
               </div>
