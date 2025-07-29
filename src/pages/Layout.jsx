@@ -124,7 +124,7 @@ export default function Layout({ children }) {
             <div className="hidden md:flex items-center space-x-8">
               <button
                 onClick={() => scrollToSection("services")}
-                className={`transition-colors duration-200 font-medium ${
+                className={`transition-colors duration-200 text-sm font-medium ${
                   navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
@@ -134,7 +134,7 @@ export default function Layout({ children }) {
               </button>
               <button
                 onClick={() => scrollToSection("team")}
-                className={`transition-colors duration-200 font-medium ${
+                className={`transition-colors duration-200 text-sm font-medium ${
                   navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
@@ -144,7 +144,7 @@ export default function Layout({ children }) {
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
-                className={`transition-colors duration-200 font-medium ${
+                className={`transition-colors duration-200 text-sm font-medium ${
                   navIsScrolled
                     ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
@@ -152,9 +152,43 @@ export default function Layout({ children }) {
               >
                 Contact
               </button>
+              {/* Review Dropdown */}
+              <div className="relative group">
+                <button
+                  className={`transition-colors duration-200 text-sm font-medium flex items-center gap-1 ${
+                    navIsScrolled
+                      ? 'text-gray-700 hover:text-teal-600'
+                      : 'text-white hover:text-cyan-300 drop-shadow-sm'
+                  }`}
+                >
+                  Review
+                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
+                  <a href="https://platinumids.com/training/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Training</a>
+                  <a href="https://platinum-secure.us-east-1.reveal11.cloud" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Reveal</a>
+                  <a href="https://www.myrelativity.legal" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity Classic</a>
+                  <a href="https://my.relativity.one" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity One</a>
+                  <a href="https://iconect.platinumids.com" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">iConect v12</a>
+                </div>
+              </div>
+              <a
+                href="https://platinumids.com/blog/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`transition-colors duration-200 text-sm font-medium ${
+                  navIsScrolled
+                    ? 'text-gray-700 hover:text-teal-600'
+                    : 'text-white hover:text-cyan-300 drop-shadow-sm'
+                }`}
+              >
+                Blog
+              </a>
               <Link
                 to={createPageUrl("SendFile")}
-                className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${
                   navIsScrolled
                     ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
@@ -165,7 +199,7 @@ export default function Layout({ children }) {
               </Link>
               <Link
                 to={createPageUrl("Training")}
-                className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 ${
                   navIsScrolled
                     ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
@@ -190,25 +224,47 @@ export default function Layout({ children }) {
                   <div className="flex flex-col space-y-4 mt-8">
                     <button
                       onClick={() => scrollToSection("services")}
-                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium p-2"
+                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 text-sm font-medium p-2"
                     >
                       Services
                     </button>
                     <button
                       onClick={() => scrollToSection("team")}
-                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium p-2"
+                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 text-sm font-medium p-2"
                     >
                       Team
                     </button>
                     <button
                       onClick={() => scrollToSection("contact")}
-                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium p-2"
+                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 text-sm font-medium p-2"
                     >
                       Contact
                     </button>
+                    {/* Review Dropdown (simple expandable) */}
+                    <details className="group">
+                      <summary className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 text-sm font-medium p-2 cursor-pointer select-none outline-none">
+                        Review
+                        <span className="inline-block ml-1 transition-transform group-open:rotate-180">&#9660;</span>
+                      </summary>
+                      <div className="ml-4 mt-2 flex flex-col space-y-1">
+                        <a href="https://platinumids.com/training/" target="_blank" rel="noopener noreferrer" className="block px-2 py-1 text-gray-700 hover:bg-gray-100 text-sm rounded">Training</a>
+                        <a href="https://platinum-secure.us-east-1.reveal11.cloud" target="_blank" rel="noopener noreferrer" className="block px-2 py-1 text-gray-700 hover:bg-gray-100 text-sm rounded">Reveal</a>
+                        <a href="https://www.myrelativity.legal" target="_blank" rel="noopener noreferrer" className="block px-2 py-1 text-gray-700 hover:bg-gray-100 text-sm rounded">Relativity Classic</a>
+                        <a href="https://my.relativity.one" target="_blank" rel="noopener noreferrer" className="block px-2 py-1 text-gray-700 hover:bg-gray-100 text-sm rounded">Relativity One</a>
+                        <a href="https://iconect.platinumids.com" target="_blank" rel="noopener noreferrer" className="block px-2 py-1 text-gray-700 hover:bg-gray-100 text-sm rounded">iConect v12</a>
+                      </div>
+                    </details>
+                    <a
+                      href="https://platinumids.com/blog/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-left text-gray-700 hover:text-teal-600 transition-colors duration-200 text-sm font-medium p-2"
+                    >
+                      Blog
+                    </a>
                     <Link
                       to={createPageUrl("SendFile")}
-                      className="neumorphic-button px-4 py-3 rounded-lg text-gray-800 font-medium flex items-center gap-2 w-full"
+                      className="neumorphic-button px-4 py-3 rounded-lg text-gray-800 text-sm font-medium flex items-center gap-2 w-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <FileUp className="w-4 h-4" />
@@ -216,7 +272,7 @@ export default function Layout({ children }) {
                     </Link>
                     <Link
                       to={createPageUrl("Training")}
-                      className="neumorphic-button px-4 py-3 rounded-lg text-gray-800 font-medium flex items-center gap-2 w-full"
+                      className="neumorphic-button px-4 py-3 rounded-lg text-gray-800 text-sm font-medium flex items-center gap-2 w-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Calendar className="w-4 h-4" />
