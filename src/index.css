@@ -179,12 +179,13 @@ button:focus-visible {
     text-transform: lowercase;
   }
 
-  /* All buttons use Poppins 400 lowercase */
-  button {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    letter-spacing: -0.02em;
     text-transform: lowercase;
     font-size: 1.875rem;
   }
+  button:hover {
+    /* subtle internal glow on hover */
+    box-shadow: inset 0 0 8px rgba(255,255,255,0.2);
+  }
+}
+}
 }
