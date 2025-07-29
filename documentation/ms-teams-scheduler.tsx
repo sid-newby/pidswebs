@@ -32,7 +32,7 @@ export default function MicrosoftTeamsScheduler() {
   const [selectedTime, setSelectedTime] = useState('');
   const [meetingTitle, setMeetingTitle] = useState('');
   const [duration, setDuration] = useState('30');
-  const [selectedAttendees, setSelectedAttendees] = useState([]);
+  const [selectedAttendees, setSelectedAttendees] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -168,7 +168,7 @@ export default function MicrosoftTeamsScheduler() {
                       <input
                         type="checkbox"
                         checked={selectedAttendees.includes(attendee.email)}
-                        onChange={(e) => {
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           if (e.target.checked) {
                             setSelectedAttendees([...selectedAttendees, attendee.email]);
                           } else {

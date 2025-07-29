@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@azure/msal-browser": "^4.16.0",
     "@hookform/resolvers": "^4.1.2",
     "@microsoft/mgt-element": "^4.6.0",
     "@microsoft/mgt-msal2-provider": "^4.6.0",

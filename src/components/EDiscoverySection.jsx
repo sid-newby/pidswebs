@@ -1,5 +1,3 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Shield, Zap, HeadphonesIcon } from "lucide-react";
 
@@ -49,7 +47,7 @@ export default function EDiscoverySection() {
             </p>
             
             <p className="text-lg text-gray-600 leading-relaxed mb-8">
-              Whether you're handling routine litigation or complex multi-jurisdictional matters, 
+              Whether you&#39;re handling routine litigation or complex multi-jurisdictional matters, 
               our technology-driven approach ensures your data is secure, accessible, and 
               presentation-ready when you need it most.
             </p>

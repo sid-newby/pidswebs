@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { bookingService } from '@/lib/supabase';
+import { teamsBackendService } from '@/services/teamsBackendService';
 import PropTypes from 'prop-types';
 
 // Production Configuration - can be moved to environment variables
@@ -84,6 +85,27 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
   const [existingBookings, setExistingBookings] = useState([]);
   const [showConfig, setShowConfig] = useState(false);
   const [validationErrors, setValidationErrors] = useState([]);
+  const [teamsMeetingDetails, setTeamsMeetingDetails] = useState(null);
+  const [backendServiceStatus, setBackendServiceStatus] = useState('checking'); // 'checking', 'available', 'unavailable'
+
+  // Check backend service health when component mounts
+  useEffect(() => {
+    const checkBackendService = async () => {
+      try {
+        const isHealthy = await teamsBackendService.checkServiceHealth();
+        setBackendServiceStatus(isHealthy ? 'available' : 'unavailable');
+        
+        if (!isHealthy) {
+          console.log('Backend Teams service is unavailable.');
+        }
+      } catch (error) {
+        console.error('Failed to check backend service health:', error);
+        setBackendServiceStatus('unavailable');
+      }
+    };
+    
+    checkBackendService();
+  }, []);
 
   // Load existing bookings when component opens or date changes
   useEffect(() => {
@@ -91,7 +113,20 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
       const loadBookings = async () => {
         try {
           const bookings = await fetchExistingBookings(selectedDate);
-          setExistingBookings(bookings);
+          
+          // If backend service is available, also get calendar events
+          let calendarEvents = [];
+          if (backendServiceStatus === 'available') {
+            try {
+              calendarEvents = await teamsBackendService.getCalendarEvents(selectedDate);
+              console.log('Calendar events:', calendarEvents);
+            } catch (error) {
+              console.error('Failed to fetch calendar events:', error);
+            }
+          }
+          
+          // Merge bookings (you might want to deduplicate based on your logic)
+          setExistingBookings([...bookings, ...calendarEvents]);
         } catch (error) {
           console.error('Failed to load existing bookings:', error);
           setExistingBookings([]); // Fallback to empty array
@@ -99,7 +134,7 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
       };
       loadBookings();
     }
-  }, [isOpen, selectedDate]);
+  }, [isOpen, selectedDate, backendServiceStatus]);
 
   // Reset form when modal closes
   useEffect(() => {
@@ -258,13 +293,32 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
         timeZone: SCHEDULER_CONFIG.timeZone
       };
 
-      // 1. Save booking to the database
-      const booking = await bookingService.createBooking(meetingData);
-      console.log('Booking saved to database:', booking);
+      // 1. Create Teams meeting via backend service (if available)
+      let teamsMeetingDetails = null;
+      if (backendServiceStatus === 'available') {
+        try {
+          teamsMeetingDetails = await teamsBackendService.createMeetingWithExternalAttendees(meetingData);
+          console.log('Teams meeting created via backend:', teamsMeetingDetails);
+          setTeamsMeetingDetails(teamsMeetingDetails);
+        } catch (msError) {
+          console.error('Backend Teams service error:', msError);
+          // Continue with booking even if Teams creation fails
+        }
+      } else {
+        console.log('Backend Teams service unavailable, skipping Teams meeting creation');
+      }
 
-      // 2. For now, we'll skip the Teams meeting creation since the Edge Function isn't set up
-      // TODO: Implement Edge Function for Teams meeting creation
-      console.log('Booking created successfully. Teams meeting integration pending.');
+      // 2. Save booking to the database with Teams meeting details
+      const bookingData = {
+        ...meetingData,
+        teamsMeetingId: teamsMeetingDetails?.id,
+        teamsMeetingUrl: teamsMeetingDetails?.teamsMeetingUrl,
+        calendarEventUrl: teamsMeetingDetails?.webLink,
+        status: teamsMeetingDetails ? 'confirmed' : 'pending_teams_creation'
+      };
+
+      const booking = await bookingService.createBooking(bookingData);
+      console.log('Booking saved to database:', booking);
 
       // 3. Update local state with the confirmed booking details
       const newBooking = {
@@ -276,7 +330,7 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
         attendee: booking.attendee_email,
         duration: booking.duration,
         status: booking.status,
-        teamsMeetingUrl: null, // Will be populated when Edge Function is implemented
+        teamsMeetingUrl: teamsMeetingDetails?.teamsMeetingUrl,
       };
       
       setExistingBookings(prev => [...prev.filter(b => b.id !== booking.id), newBooking]);
@@ -287,17 +341,18 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
       setTimeout(() => {
         setShowSuccess(false);
         onClose();
-      }, 4000);
+      }, 5000);
       
     } catch (error) {
       console.error('Error scheduling meeting:', error);
       let errorMessage = 'Failed to schedule meeting. Please try again.';
       
-      // Handle specific database errors
       if (error.message?.includes('duplicate key')) {
         errorMessage = 'This time slot is no longer available. Please select a different time.';
       } else if (error.message?.includes('constraint')) {
         errorMessage = 'Invalid booking data. Please check your inputs and try again.';
+      } else if (error.message?.includes('token') || error.message?.includes('auth')) {
+        errorMessage = 'Teams integration authentication expired. Please contact support.';
       }
       
       setValidationErrors([errorMessage]);
@@ -358,13 +413,38 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
             </DialogDescription>
           </DialogHeader>
 
+        {/* Backend Service Status */}
+        {backendServiceStatus === 'unavailable' && (
+          <Alert className="border-orange-200 bg-orange-50 mb-4">
+            <AlertCircle className="h-4 w-4 text-orange-600" />
+            <AlertDescription className="text-orange-800">
+              <strong>Teams Integration Unavailable:</strong> Backend service for Teams meeting creation is currently unavailable. 
+              Bookings will be saved and a team member will contact you with meeting details.
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Success Message */}
         {showSuccess && (
           <Alert className="border-green-200 bg-green-50">
             <CheckCircle className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-800">
               <strong>Training Session Scheduled!</strong><br />
-              Your booking has been saved. A team member will contact you at {attendeeEmail} to provide Teams meeting details.
+              {teamsMeetingDetails?.teamsMeetingUrl ? (
+                <>
+                  Teams meeting created successfully! The meeting link has been sent to {attendeeEmail}.
+                  <a 
+                    href={teamsMeetingDetails.webLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block mt-2 text-blue-600 hover:underline"
+                  >
+                    View in Outlook Calendar →
+                  </a>
+                </>
+              ) : (
+                <>Your booking has been saved. A team member will contact you at {attendeeEmail} to provide Teams meeting details.</>
+              )}
             </AlertDescription>
           </Alert>
         )}
@@ -648,11 +728,11 @@ export default function TeamsScheduler({ platform, isOpen, onClose }) {
         <div className="mt-4 p-4 bg-gray-50 rounded-lg">
           <h4 className="text-sm font-semibold text-gray-900 mb-2">What happens next?</h4>
           <ul className="text-xs text-gray-600 space-y-1">
-            <li>• Calendar invitation sent to {attendeeEmail || 'your email'} with Teams meeting link</li>
-            <li>• Our trainer receives automatic notification and prepares session materials</li>
-            <li>• {SCHEDULER_CONFIG.meetingPadding}-minute buffer added before/after to prevent conflicts</li>
-            <li>• Join via Teams app or web browser using the provided link</li>
-            <li>• Session recording and materials shared within 24 hours</li>
+            <li>• Your booking request has been saved to our system</li>
+            <li>• A team member will contact you at {attendeeEmail || 'your email'} within 24 hours</li>
+            <li>• You&apos;ll receive a Teams meeting invitation with the joining link</li>
+            <li>• Our trainer will prepare session materials for your {platform.name} training</li>
+            <li>• Session recording and materials shared within 24 hours after completion</li>
           </ul>
         </div>
 
