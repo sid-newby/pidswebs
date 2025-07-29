@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "base44-app",
+      "name": "PlatinumIDS",
       "dependencies": {
         "@azure/msal-browser": "^4.16.0",
         "@azure/msal-node": "^2.6.6",
