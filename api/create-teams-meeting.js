@@ -1,7 +1,7 @@
 // api/create-teams-meeting.js
 // Vercel serverless function for creating Teams meetings with application permissions
 
-import { Client } from '@azure/msal-node';
+import { ConfidentialClientApplication } from '@azure/msal-node';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,7 +18,7 @@ const msalConfig = {
   }
 };
 
-const cca = new Client(msalConfig);
+const cca = new ConfidentialClientApplication(msalConfig);
 
 // Get access token using client credentials flow
 async function getAppAccessToken() {

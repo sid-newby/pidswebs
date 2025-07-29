@@ -1,7 +1,7 @@
 // api/calendar-events.js
 // Vercel serverless function for fetching calendar events
 
-import { Client } from '@azure/msal-node';
+import { ConfidentialClientApplication } from '@azure/msal-node';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,7 +18,7 @@ const msalConfig = {
   }
 };
 
-const cca = new Client(msalConfig);
+const cca = new ConfidentialClientApplication(msalConfig);
 
 // Get access token using client credentials flow
 async function getAppAccessToken() {
@@ -110,6 +110,16 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error fetching calendar events:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      msalConfig: {
+        clientId: process.env.AZURE_CLIENT_ID ? 'Present' : 'Missing',
+        clientSecret: process.env.AZURE_CLIENT_SECRET ? 'Present' : 'Missing',
+        tenantId: process.env.AZURE_TENANT_ID ? 'Present' : 'Missing',
+        organizerUserId: process.env.ORGANIZER_USER_ID
+      }
+    });
     
     // Always return 200 with empty array to avoid CORS issues
     // The client will handle the empty response gracefully
