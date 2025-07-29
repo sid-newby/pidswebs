@@ -1,7 +1,15 @@
 {
   "functions": {
-    "api/create-teams-meeting.js": {},
-    "api/calendar-events.js": {}
+    "api/create-teams-meeting.js": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "api/calendar-events.js": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 30
+    }
   },
   "headers": [
     {
