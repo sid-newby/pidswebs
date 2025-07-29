@@ -144,12 +144,12 @@ export default function Layout({ children }) {
         <style>
           {`
             @keyframes agentPulse {
-              0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.25);}
-              50% { transform: scale(1.08); box-shadow: 0 0 16px 8px rgba(13,148,136,0.10);}
-              100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.25);}
+              0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.12);}
+              50% { transform: scale(1.03); box-shadow: 0 0 8px 3px rgba(13,148,136,0.06);}
+              100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,148,136,0.12);}
             }
             .animate-agent-pulse {
-              animation: agentPulse 2.2s infinite cubic-bezier(0.4,0,0.2,1);
+              animation: agentPulse 3.2s infinite cubic-bezier(0.4,0,0.2,1);
               transition: box-shadow 0.3s;
             }
           `}
