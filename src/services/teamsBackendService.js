@@ -108,43 +108,65 @@ export const teamsBackendService = {
     const endDateTime = `${date}T23:59:59`;
     
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
-      const url = `${API_BASE_URL}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`;
+      // Try the current origin first, then fallback to configured API_BASE_URL
+      const currentOrigin = window.location.origin;
+      const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL;
       
-      console.log('Fetching calendar events from:', url);
+      const urls = [
+        `${currentOrigin}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`,
+        ...(configuredBaseUrl && configuredBaseUrl !== currentOrigin ? 
+          [`${configuredBaseUrl}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`] : [])
+      ];
       
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      console.log('Attempting calendar events fetch from URLs:', urls);
+      
+      for (const url of urls) {
+        try {
+          console.log('Trying URL:', url);
+          
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
 
-      console.log('Calendar events response status:', response.status);
+          console.log(`Response from ${url}:`, {
+            status: response.status,
+            statusText: response.statusText,
+            ok: response.ok
+          });
 
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => 'Unknown error');
-        console.error('Calendar events API error:', errorText);
-        throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+          if (response.ok) {
+            const events = await response.json();
+            console.log('Calendar events fetched successfully:', events.length, 'events');
+            
+            return events.map(event => ({
+              id: event.id,
+              subject: event.subject,
+              startTime: new Date(event.start.dateTime).toTimeString().slice(0, 5),
+              endTime: new Date(event.end.dateTime).toTimeString().slice(0, 5),
+              isAllDay: event.isAllDay,
+            }));
+          } else {
+            const errorText = await response.text().catch(() => 'Unknown error');
+            console.warn(`Failed to fetch from ${url}:`, response.status, errorText.substring(0, 200));
+          }
+        } catch (fetchError) {
+          console.warn(`Fetch error for ${url}:`, fetchError.message);
+        }
       }
-
-      const events = await response.json();
-      console.log('Calendar events fetched:', events.length, 'events');
       
-      return events.map(event => ({
-        id: event.id,
-        subject: event.subject,
-        startTime: new Date(event.start.dateTime).toTimeString().slice(0, 5),
-        endTime: new Date(event.end.dateTime).toTimeString().slice(0, 5),
-        isAllDay: event.isAllDay,
-      }));
+      throw new Error('All calendar API endpoints failed');
+      
     } catch (error) {
       console.error('Error fetching calendar events:', error);
       console.error('Error details:', {
         message: error.message,
         stack: error.stack,
         date,
-        API_BASE_URL: import.meta.env.VITE_API_BASE_URL || window.location.origin
+        currentOrigin: window.location.origin,
+        configuredBaseUrl: import.meta.env.VITE_API_BASE_URL
       });
       return []; // Return empty array on error to allow scheduling to continue
     }
