@@ -42,16 +42,16 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="min-h-screen bg-[url('/bg.svg')] bg-cover bg-center flex items-end justify-start pl-16 pr-0 pb-16 relative overflow-hidden">
+      <section className="min-h-screen flex items-end justify-start pl-16 pr-0 pb-16 relative overflow-hidden">
+        <video src="/bg.mp4" autoPlay muted loop className="absolute inset-0 w-full h-full object-cover -z-20" />
       {/* Starry sky effect */}
-      <div ref={starsRef} className="absolute inset-0 pointer-events-none z-0">
+      <div ref={starsRef} className="absolute inset-0 pointer-events-none z-10">
         <style dangerouslySetInnerHTML={{
           __html: `
             .star {
               position: absolute;
               background: white;
               border-radius: 50%;
-              animation: twinkle linear infinite;
             }
             
             .star:nth-child(4n) {
@@ -103,7 +103,7 @@ export default function HeroSection() {
         }} />
       </div>
 
-      <div className="max-w-4xl text-left relative z-10">
+      <div className="max-w-4xl text-left relative z-20">
         <div className="mb-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 drop-shadow-md">
             We Are Platinum

@@ -101,8 +101,8 @@ export default function ReprographicsSection() {
         {/* Video Section */}
         <div className="mt-16">
           <div className="neumorphic rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-              Reprographics Capabilities
+            <h3 className="text-2xl text-gray-900 mb-6 text-center">
+              Scan, Print, Copy, Computer Vision, Paper Deduplication, Trial Services, Demonstrative and War Room.
             </h3>
             <div className="aspect-video rounded-xl overflow-hidden neumorphic-inset">
               <iframe
