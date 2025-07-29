@@ -155,9 +155,11 @@ export const teamsBackendService = {
    * @returns {Promise<boolean>} Service availability
    */
   checkServiceHealth: async () => {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    
+    console.log('Checking service health at:', `${API_BASE_URL}/api/health`);
+    
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
-      
       // Use the health endpoint for better debugging
       const response = await fetch(`${API_BASE_URL}/api/health`, {
         method: 'GET',
@@ -166,16 +168,32 @@ export const teamsBackendService = {
         },
       });
 
+      console.log('Health check response:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        url: response.url
+      });
+
       if (response.ok) {
         const health = await response.json();
-        console.log('API Health Check:', health);
+        console.log('API Health Check Success:', health);
         return true;
       } else {
-        console.error('Health check failed:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('Health check failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText.substring(0, 200) // First 200 chars to see if it's HTML
+        });
         return false;
       }
     } catch (error) {
-      console.error('Vercel API health check failed:', error);
+      console.error('Vercel API health check failed:', {
+        message: error.message,
+        name: error.name,
+        stack: error.stack?.substring(0, 200)
+      });
       return false;
     }
   },
