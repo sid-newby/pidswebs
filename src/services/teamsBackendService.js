@@ -63,10 +63,10 @@ export const teamsBackendService = {
     };
 
     try {
-      // Use Supabase Edge Function instead of separate backend
-      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      // Use Vercel serverless function
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
       
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/create-teams-meeting`, {
+      const response = await fetch(`${API_BASE_URL}/api/create-teams-meeting`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,10 +142,10 @@ export const teamsBackendService = {
    */
   checkServiceHealth: async () => {
     try {
-      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
       
       // Simple health check - try to call the function with OPTIONS (CORS preflight)
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/create-teams-meeting`, {
+      const response = await fetch(`${API_BASE_URL}/api/create-teams-meeting`, {
         method: 'OPTIONS',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export const teamsBackendService = {
 
       return response.ok;
     } catch (error) {
-      console.error('Supabase Edge Function health check failed:', error);
+      console.error('Vercel API health check failed:', error);
       return false;
     }
   }

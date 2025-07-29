@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@azure/msal-browser": "^4.16.0",
+    "@azure/msal-node": "^2.6.6",
     "@hookform/resolvers": "^4.1.2",
     "@microsoft/mgt-element": "^4.6.0",
     "@microsoft/mgt-msal2-provider": "^4.6.0",

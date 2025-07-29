@@ -6,7 +6,7 @@ const msalConfig = {
   auth: {
     clientId: import.meta.env.VITE_AZURE_CLIENT_ID,
     authority: `https://login.microsoftonline.com/${import.meta.env.VITE_AZURE_TENANT_ID}`,
-    redirectUri: import.meta.env.VITE_AZURE_REDIRECT_URI || window.location.origin,
+    redirectUri: import.meta.env.VITE_AZURE_REDIRECT_URI || import.meta.env.VITE_SITE_URL || window.location.origin,
   },
   cache: {
     cacheLocation: 'localStorage', // Use localStorage to persist across tabs/windows
