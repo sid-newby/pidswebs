@@ -138,7 +138,7 @@ export default function Layout({ children }) {
         <img
           src="/ai.gif"
           alt="AI Agent"
-          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full animate-agent-pulse cursor-pointer"
+          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full animate-agent-pulse cursor-pointer ai-avatar"
           onClick={handleAgentClick}
         />
         <style>
@@ -150,7 +150,12 @@ export default function Layout({ children }) {
             }
             .animate-agent-pulse {
               animation: agentPulse 3.2s infinite cubic-bezier(0.4,0,0.2,1);
-              transition: box-shadow 0.3s;
+              transition: box-shadow 0.3s, transform 0.12s cubic-bezier(0.4,0,0.2,1);
+            }
+            .ai-avatar:active {
+              transform: scale(0.93, 0.88) !important;
+              filter: brightness(0.97);
+              transition: transform 0.12s cubic-bezier(0.4,0,0.2,1), filter 0.12s;
             }
           `}
         </style>
