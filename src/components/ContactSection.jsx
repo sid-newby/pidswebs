@@ -282,7 +282,7 @@ export default function ContactSection() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full neumorphic-button py-4 text-lg font-semibold text-gray-800 hover:text-gray-900"
+                className="w-full neumorphic-button py-4 text-lg font-semibold text-gray-800 hover:bg-black hover:text-white transition-colors"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
