@@ -136,8 +136,8 @@ export default function ContactSection() {
                   <div>
                     <h4 className="font-semibold text-gray-900">Visit Us</h4>
                       <p className="text-gray-600">
-                        Legal Technology Center<br />
-                        Business District<br />
+                        platinum ids
+                        Downtown Dallas Facility<br />
                         214.651.1457<br />
                         Deep Ellum Texas<br />
                         3927 Main Street #110<br />
