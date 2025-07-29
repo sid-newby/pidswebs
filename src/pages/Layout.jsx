@@ -10,6 +10,7 @@ export default function Layout({ children }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [navbarScrolled, setNavbarScrolled] = React.useState(false);
+  const [reviewOpen, setReviewOpen] = React.useState(false);
 
   // Determine if current page is Training or SendFile
   const isSpecialPage =
@@ -153,26 +154,39 @@ export default function Layout({ children }) {
                 Contact
               </button>
               {/* Review Dropdown */}
-              <div className="relative group">
+              <div
+                className="relative"
+                onMouseEnter={() => setReviewOpen(true)}
+                onMouseLeave={() => setReviewOpen(false)}
+                onFocus={() => setReviewOpen(true)}
+                onBlur={() => setReviewOpen(false)}
+                tabIndex={-1}
+              >
                 <button
                   className={`transition-colors duration-200 text-sm font-medium flex items-center gap-1 ${
                     navIsScrolled
                       ? 'text-gray-700 hover:text-teal-600'
                       : 'text-white hover:text-cyan-300 drop-shadow-sm'
                   }`}
+                  aria-haspopup="true"
+                  aria-expanded={reviewOpen ? "true" : "false"}
+                  onClick={() => setReviewOpen((v) => !v)}
+                  type="button"
                 >
                   Review
                   <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
-                  <a href="https://platinumids.com/training/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Training</a>
-                  <a href="https://platinum-secure.us-east-1.reveal11.cloud" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Reveal</a>
-                  <a href="https://www.myrelativity.legal" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity Classic</a>
-                  <a href="https://my.relativity.one" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity One</a>
-                  <a href="https://iconect.platinumids.com" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">iConect v12</a>
-                </div>
+                {reviewOpen && (
+                  <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <a href="https://platinumids.com/training/" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Training</a>
+                    <a href="https://platinum-secure.us-east-1.reveal11.cloud" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Reveal</a>
+                    <a href="https://www.myrelativity.legal" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity Classic</a>
+                    <a href="https://my.relativity.one" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Relativity One</a>
+                    <a href="https://iconect.platinumids.com" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">iConect v12</a>
+                  </div>
+                )}
               </div>
               <a
                 href="https://platinumids.com/blog/"
