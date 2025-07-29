@@ -11,7 +11,7 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen flex items-end justify-start pl-16 pr-0 pb-16 relative overflow-hidden">
       <video
-        src="/bg.mp4"
+        src="/bg.webm"
         autoPlay
         muted
         loop
