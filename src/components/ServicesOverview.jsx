@@ -1,29 +1,27 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
 import { Database, BarChart3, FileText, ArrowRight } from "lucide-react";
 
 export default function ServicesOverview() {
   const services = [
-    {
+      {
       id: "ediscovery",
       title: "eDiscovery",
       description: "Cost-confident data preservation, collection, and presentation with flat-rate pricing.",
       icon: Database,
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=300&fit=crop"
+      image: "/ediscovery.mp4"
     },
-    {
+      {
       id: "data-science", 
       title: "Data Science",
       description: "Transform complex data into actionable insights with advanced analytics and machine learning.",
       icon: BarChart3,
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
+      image: "/datasci.mp4"
     },
-    {
+      {
       id: "reprographics",
       title: "Reprographics",
       description: "24/7 copy, print, trial boards, and digital transformation services.",
       icon: FileText, 
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop"
+      image: "/analog.mp4"
     }
   ];
 
@@ -55,10 +53,12 @@ export default function ServicesOverview() {
               className="neumorphic rounded-2xl p-6 hover:shadow-inner transition-all duration-300 cursor-pointer group"
             >
               <div className="mb-6 overflow-hidden rounded-xl">
-                <img
+                <video
                   src={service.image}
-                  alt={service.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                  autoPlay
+                  muted
+                  loop
                 />
               </div>
               
