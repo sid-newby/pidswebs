@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, ExternalLink, Calendar, BookOpen, Video, Award, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+import TeamsScheduler from "@/components/TeamsScheduler";
 
 export default function Training() {
   const [formData, setFormData] = useState({
@@ -21,27 +22,26 @@ export default function Training() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [schedulerOpen, setSchedulerOpen] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
 
   const platforms = [
     {
       name: "Reveal",
       description: "Industry-leading eDiscovery platform with advanced analytics and review capabilities.",
       logo: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=120&h=120&fit=crop",
-      bookingUrl: "https://meetings.hubspot.com/reveal-training",
       color: "bg-blue-500"
     },
     {
       name: "Relativity",
       description: "Comprehensive legal technology platform for eDiscovery and compliance workflows.",
       logo: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=120&h=120&fit=crop", 
-      bookingUrl: "https://meetings.hubspot.com/relativity-training",
       color: "bg-green-500"
     },
     {
       name: "iConect",
       description: "Cloud-based eDiscovery platform designed for efficient document review and analysis.",
       logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=120&h=120&fit=crop",
-      bookingUrl: "https://meetings.hubspot.com/iconect-training", 
       color: "bg-purple-500"
     }
   ];
@@ -106,6 +106,16 @@ export default function Training() {
       setSubmitStatus("error");
     }
     setIsSubmitting(false);
+  };
+
+  const openScheduler = (platform) => {
+    setSelectedPlatform(platform);
+    setSchedulerOpen(true);
+  };
+
+  const closeScheduler = () => {
+    setSchedulerOpen(false);
+    setSelectedPlatform(null);
   };
 
   return (
@@ -181,15 +191,13 @@ export default function Training() {
                     </div>
                     <h4 className="text-xl font-bold text-gray-900 mb-3">{platform.name}</h4>
                     <p className="text-gray-600 text-sm mb-4 leading-relaxed">{platform.description}</p>
-                    <a
-                      href={platform.bookingUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => openScheduler(platform)}
                       className="neumorphic-button inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-800 font-semibold text-sm hover:scale-105 transition-transform"
                     >
-                      Schedule Training
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
+                      Schedule via Teams
+                      <Video className="w-4 h-4" />
+                    </button>
                   </CardContent>
                 </Card>
               ))}
@@ -341,6 +349,13 @@ export default function Training() {
             </Card>
           </div>
         </div>
+
+        {/* Teams Scheduler Modal */}
+        <TeamsScheduler
+          platform={selectedPlatform}
+          isOpen={schedulerOpen}
+          onClose={closeScheduler}
+        />
       </div>
     </div>
   );

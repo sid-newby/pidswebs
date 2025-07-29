@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.2",
+    "@microsoft/mgt-element": "^4.6.0",
+    "@microsoft/mgt-msal2-provider": "^4.6.0",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-aspect-ratio": "^1.1.2",
