@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "api/create-teams-meeting.js": {},
+    "api/calendar-events.js": {}
+  },
   "headers": [
     {
       "source": "/api/(.*)",

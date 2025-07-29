@@ -109,19 +109,27 @@ export const teamsBackendService = {
     
     try {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+      const url = `${API_BASE_URL}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`;
       
-      const response = await fetch(`${API_BASE_URL}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`, {
+      console.log('Fetching calendar events from:', url);
+      
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
+      console.log('Calendar events response status:', response.status);
+
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const errorText = await response.text().catch(() => 'Unknown error');
+        console.error('Calendar events API error:', errorText);
+        throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
       }
 
       const events = await response.json();
+      console.log('Calendar events fetched:', events.length, 'events');
       
       return events.map(event => ({
         id: event.id,
@@ -132,6 +140,12 @@ export const teamsBackendService = {
       }));
     } catch (error) {
       console.error('Error fetching calendar events:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        date,
+        API_BASE_URL: import.meta.env.VITE_API_BASE_URL || window.location.origin
+      });
       return []; // Return empty array on error to allow scheduling to continue
     }
   },
