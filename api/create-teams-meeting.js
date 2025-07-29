@@ -68,15 +68,15 @@ async function callGraphAPI(endpoint, method = 'GET', data = null) {
 }
 
 export default async function handler(req, res) {
-  // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).json({});
-  }
-
-  // Set CORS headers
+  // Set CORS headers for all requests
   Object.entries(corsHeaders).forEach(([key, value]) => {
     res.setHeader(key, value);
   });
+
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
