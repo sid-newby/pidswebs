@@ -82,6 +82,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Check for required environment variables
+  if (!process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET || !process.env.AZURE_TENANT_ID) {
+    console.error('Missing required Azure environment variables');
+    return res.status(500).json({ 
+      error: 'Server configuration error',
+      message: 'Missing required Azure credentials' 
+    });
+  }
+
   try {
     const {
       subject,
