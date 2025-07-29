@@ -57,7 +57,7 @@ export const bookingService = {
         time_zone: bookingData.timeZone || 'America/Chicago',
         status: 'scheduled',
         notes: `${bookingData.platform} training session scheduled via Teams Scheduler`,
-        trainer_email: 'training@base44.com' // Replace with actual trainer email
+        trainer_email: 'snewby@platinumids.com' // Replace with actual trainer email
       }])
       .select()
       .single()

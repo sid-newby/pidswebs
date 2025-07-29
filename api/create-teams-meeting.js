@@ -18,7 +18,12 @@ const msalConfig = {
   }
 };
 
-const cca = new ConfidentialClientApplication(msalConfig);
+let cca;
+try {
+  cca = new ConfidentialClientApplication(msalConfig);
+} catch (error) {
+  console.error('Error initializing MSAL client:', error);
+}
 
 // Get access token using client credentials flow
 async function getAppAccessToken() {
@@ -68,30 +73,30 @@ async function callGraphAPI(endpoint, method = 'GET', data = null) {
 }
 
 export default async function handler(req, res) {
-  // Set CORS headers for all requests
+  // ALWAYS set CORS headers first, before any processing
   Object.entries(corsHeaders).forEach(([key, value]) => {
     res.setHeader(key, value);
   });
 
-  // Handle CORS preflight
+  // Handle CORS preflight immediately
   if (req.method === 'OPTIONS') {
+    console.log('CORS preflight request received');
     return res.status(200).end();
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Check for required environment variables
-  if (!process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET || !process.env.AZURE_TENANT_ID) {
-    console.error('Missing required Azure environment variables');
-    return res.status(500).json({ 
-      error: 'Server configuration error',
-      message: 'Missing required Azure credentials' 
-    });
-  }
-
   try {
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    // Check for required environment variables
+    if (!process.env.AZURE_CLIENT_ID || !process.env.AZURE_CLIENT_SECRET || !process.env.AZURE_TENANT_ID) {
+      console.error('Missing required Azure environment variables');
+      return res.status(500).json({ 
+        error: 'Server configuration error',
+        message: 'Missing required Azure credentials' 
+      });
+    }
     const {
       subject,
       body,

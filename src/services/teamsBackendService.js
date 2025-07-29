@@ -63,14 +63,13 @@ export const teamsBackendService = {
     };
 
     try {
-      // Use Vercel serverless function
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+      // Use current origin to avoid CORS issues
+      const API_BASE_URL = window.location.origin;
       
       const response = await fetch(`${API_BASE_URL}/api/create-teams-meeting`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Add any authentication headers if needed
         },
         body: JSON.stringify(requestBody),
       });
@@ -108,56 +107,49 @@ export const teamsBackendService = {
     const endDateTime = `${date}T23:59:59`;
     
     try {
-      // Try the current origin first, then fallback to configured API_BASE_URL
+      // Use current origin by default to avoid CORS issues
       const currentOrigin = window.location.origin;
       const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL;
       
-      const urls = [
-        `${currentOrigin}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`,
-        ...(configuredBaseUrl && configuredBaseUrl !== currentOrigin ? 
-          [`${configuredBaseUrl}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`] : [])
-      ];
+      console.log('API Configuration:', {
+        currentOrigin,
+        configuredBaseUrl,
+        willUseCurrent: !configuredBaseUrl || configuredBaseUrl === currentOrigin
+      });
       
-      console.log('Attempting calendar events fetch from URLs:', urls);
+      const url = `${currentOrigin}/api/calendar-events?start=${startDateTime}&end=${endDateTime}`;
       
-      for (const url of urls) {
-        try {
-          console.log('Trying URL:', url);
-          
-          const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
+      console.log('Fetching calendar events from:', url);
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-          console.log(`Response from ${url}:`, {
-            status: response.status,
-            statusText: response.statusText,
-            ok: response.ok
-          });
+      console.log(`Response from ${url}:`, {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
 
-          if (response.ok) {
-            const events = await response.json();
-            console.log('Calendar events fetched successfully:', events.length, 'events');
-            
-            return events.map(event => ({
-              id: event.id,
-              subject: event.subject,
-              startTime: new Date(event.start.dateTime).toTimeString().slice(0, 5),
-              endTime: new Date(event.end.dateTime).toTimeString().slice(0, 5),
-              isAllDay: event.isAllDay,
-            }));
-          } else {
-            const errorText = await response.text().catch(() => 'Unknown error');
-            console.warn(`Failed to fetch from ${url}:`, response.status, errorText.substring(0, 200));
-          }
-        } catch (fetchError) {
-          console.warn(`Fetch error for ${url}:`, fetchError.message);
-        }
+      if (response.ok) {
+        const events = await response.json();
+        console.log('Calendar events fetched successfully:', events.length, 'events');
+        
+        return events.map(event => ({
+          id: event.id,
+          subject: event.subject,
+          startTime: new Date(event.start.dateTime).toTimeString().slice(0, 5),
+          endTime: new Date(event.end.dateTime).toTimeString().slice(0, 5),
+          isAllDay: event.isAllDay,
+        }));
+      } else {
+        const errorText = await response.text().catch(() => 'Unknown error');
+        console.error(`Failed to fetch from ${url}:`, response.status, errorText.substring(0, 200));
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
-      
-      throw new Error('All calendar API endpoints failed');
       
     } catch (error) {
       console.error('Error fetching calendar events:', error);
@@ -177,7 +169,7 @@ export const teamsBackendService = {
    * @returns {Promise<boolean>} Service availability
    */
   checkServiceHealth: async () => {
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    const API_BASE_URL = window.location.origin;
     
     console.log('Checking service health at:', `${API_BASE_URL}/api/health`);
     
@@ -225,7 +217,7 @@ export const teamsBackendService = {
    * @returns {Promise<Object>} Debug information
    */
   debugApiConnection: async () => {
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    const API_BASE_URL = window.location.origin;
     const results = {
       apiBaseUrl: API_BASE_URL,
       currentOrigin: window.location.origin,
