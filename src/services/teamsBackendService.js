@@ -158,18 +158,83 @@ export const teamsBackendService = {
     try {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
       
-      // Simple health check - try to call the function with OPTIONS (CORS preflight)
-      const response = await fetch(`${API_BASE_URL}/api/create-teams-meeting`, {
-        method: 'OPTIONS',
+      // Use the health endpoint for better debugging
+      const response = await fetch(`${API_BASE_URL}/api/health`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      return response.ok;
+      if (response.ok) {
+        const health = await response.json();
+        console.log('API Health Check:', health);
+        return true;
+      } else {
+        console.error('Health check failed:', response.status, response.statusText);
+        return false;
+      }
     } catch (error) {
       console.error('Vercel API health check failed:', error);
       return false;
     }
+  },
+
+  /**
+   * Test API connectivity and debug routing issues
+   * @returns {Promise<Object>} Debug information
+   */
+  debugApiConnection: async () => {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    const results = {
+      apiBaseUrl: API_BASE_URL,
+      currentOrigin: window.location.origin,
+      tests: {}
+    };
+
+    // Test health endpoint
+    try {
+      const healthResponse = await fetch(`${API_BASE_URL}/api/health`);
+      results.tests.health = {
+        status: healthResponse.status,
+        ok: healthResponse.ok,
+        url: `${API_BASE_URL}/api/health`
+      };
+      
+      if (healthResponse.ok) {
+        results.tests.health.data = await healthResponse.json();
+      } else {
+        results.tests.health.error = await healthResponse.text();
+      }
+    } catch (error) {
+      results.tests.health = {
+        error: error.message,
+        url: `${API_BASE_URL}/api/health`
+      };
+    }
+
+    // Test calendar events endpoint
+    try {
+      const testDate = new Date().toISOString().split('T')[0];
+      const calendarResponse = await fetch(`${API_BASE_URL}/api/calendar-events?start=${testDate}T00:00:00&end=${testDate}T23:59:59`);
+      results.tests.calendarEvents = {
+        status: calendarResponse.status,
+        ok: calendarResponse.ok,
+        url: `${API_BASE_URL}/api/calendar-events?start=${testDate}T00:00:00&end=${testDate}T23:59:59`
+      };
+
+      if (calendarResponse.ok) {
+        results.tests.calendarEvents.data = await calendarResponse.json();
+      } else {
+        results.tests.calendarEvents.error = await calendarResponse.text();
+      }
+    } catch (error) {
+      results.tests.calendarEvents = {
+        error: error.message
+      };
+    }
+
+    console.log('API Debug Results:', results);
+    return results;
   }
 };
