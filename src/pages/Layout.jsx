@@ -111,10 +111,9 @@ export default function Layout({ children }) {
         <img
           src="/ai.gif"
           alt="AI Agent"
-          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full shadow-lg animate-agent-pulse"
+          className="fixed top-4 right-8 z-[100] w-16 h-16 rounded-full animate-agent-pulse"
           style={{
-            pointerEvents: "none",
-            filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.15))"
+            pointerEvents: "none"
           }}
         />
         <style>
