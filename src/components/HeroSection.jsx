@@ -15,7 +15,7 @@ export default function HeroSection() {
         autoPlay
         muted
         loop
-        className="absolute inset-0 w-full h-full object-cover -z-20"
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
       <div className="max-w-4xl text-left relative z-20">
