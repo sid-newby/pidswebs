@@ -11,12 +11,13 @@ export default function Layout({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [navbarScrolled, setNavbarScrolled] = React.useState(false);
 
+  // Determine if current page is Training or SendFile
+  const isSpecialPage =
+    location.pathname.toLowerCase().includes("training") ||
+    location.pathname.toLowerCase().includes("sendfile");
+
   React.useEffect(() => {
     const handleScroll = () => {
-      // Always scrolled on /Training or /SendFile, otherwise based on scroll
-      const isSpecialPage =
-        location.pathname.toLowerCase().includes("training") ||
-        location.pathname.toLowerCase().includes("sendfile");
       if (isSpecialPage) {
         setNavbarScrolled(true);
       } else {
@@ -30,6 +31,7 @@ export default function Layout({ children }) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line
   }, [location.pathname]);
 
   const scrollToSection = (sectionId) => {
@@ -43,6 +45,9 @@ export default function Layout({ children }) {
     }
     setMobileMenuOpen(false);
   };
+
+  // Use isSpecialPage OR navbarScrolled for nav color logic
+  const navIsScrolled = isSpecialPage || navbarScrolled;
 
   return (
     <div className="min-h-screen bg-gray-200">
@@ -97,8 +102,8 @@ export default function Layout({ children }) {
 
       {/* Navigation */}
       <nav className={`fixed top-4 w-full z-50 transition-all duration-300 ${
-        navbarScrolled 
-          ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg' 
+        navIsScrolled
+          ? 'bg-gray-200/95 backdrop-blur-md border-b border-gray-300 shadow-lg'
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -107,10 +112,10 @@ export default function Layout({ children }) {
           {/* Logo always present but invisible until scrolled */}
           <Link to={createPageUrl("Home")} className="flex items-center space-x-2">
             <div className={`text-4xl bg-gradient-to-r pr-1 transition-all duration-300 ${
-              navbarScrolled 
-                ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent' 
+              navIsScrolled
+                ? 'from-gray-800 to-teal-600 bg-clip-text text-transparent'
                 : 'from-white to-cyan-300 bg-clip-text text-transparent drop-shadow-lg'
-            } ${navbarScrolled ? '' : 'invisible'}`} style={{ fontFamily: 'Poppins', fontWeight: 700, letterSpacing: '-0.1em', textTransform: 'lowercase' }}>
+            } ${navIsScrolled ? '' : 'invisible'}`} style={{ fontFamily: 'Poppins', fontWeight: 700, letterSpacing: '-0.1em', textTransform: 'lowercase' }}>
               platinum ids
             </div>
           </Link>
@@ -120,8 +125,8 @@ export default function Layout({ children }) {
               <button
                 onClick={() => scrollToSection("services")}
                 className={`transition-colors duration-200 font-medium ${
-                  navbarScrolled 
-                    ? 'text-gray-700 hover:text-teal-600' 
+                  navIsScrolled
+                    ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
                 }`}
               >
@@ -130,8 +135,8 @@ export default function Layout({ children }) {
               <button
                 onClick={() => scrollToSection("team")}
                 className={`transition-colors duration-200 font-medium ${
-                  navbarScrolled 
-                    ? 'text-gray-700 hover:text-teal-600' 
+                  navIsScrolled
+                    ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
                 }`}
               >
@@ -140,8 +145,8 @@ export default function Layout({ children }) {
               <button
                 onClick={() => scrollToSection("contact")}
                 className={`transition-colors duration-200 font-medium ${
-                  navbarScrolled 
-                    ? 'text-gray-700 hover:text-teal-600' 
+                  navIsScrolled
+                    ? 'text-gray-700 hover:text-teal-600'
                     : 'text-white hover:text-cyan-300 drop-shadow-sm'
                 }`}
               >
@@ -150,8 +155,8 @@ export default function Layout({ children }) {
               <Link
                 to={createPageUrl("SendFile")}
                 className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
-                  navbarScrolled 
-                    ? 'neumorphic-button text-gray-800' 
+                  navIsScrolled
+                    ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
                 }`}
               >
@@ -161,8 +166,8 @@ export default function Layout({ children }) {
               <Link
                 to={createPageUrl("Training")}
                 className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all duration-300 ${
-                  navbarScrolled 
-                    ? 'neumorphic-button text-gray-800' 
+                  navIsScrolled
+                    ? 'neumorphic-button text-gray-800'
                     : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white shadow-lg'
                 }`}
               >
@@ -176,7 +181,7 @@ export default function Layout({ children }) {
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className={`transition-colors duration-300 ${
-                    navbarScrolled ? 'text-gray-700' : 'text-white'
+                    navIsScrolled ? 'text-gray-700' : 'text-white'
                   }`}>
                     <Menu className="w-6 h-6" />
                   </Button>
