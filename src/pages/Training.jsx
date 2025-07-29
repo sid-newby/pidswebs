@@ -30,19 +30,19 @@ export default function Training() {
       name: "Reveal",
       description: "Industry-leading eDiscovery platform with advanced analytics and review capabilities.",
       logo: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=120&h=120&fit=crop",
-      color: "bg-blue-500"
+      backgroundColor: "#3B82F6" // Blue
     },
     {
       name: "Relativity",
       description: "Comprehensive legal technology platform for eDiscovery and compliance workflows.",
       logo: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=120&h=120&fit=crop", 
-      color: "bg-orange-500"
+      backgroundColor: "#F97316" // Orange
     },
     {
       name: "iConect",
       description: "Cloud-based eDiscovery platform designed for efficient document review and analysis.",
       logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=120&h=120&fit=crop",
-      color: "bg-purple-500"
+      backgroundColor: "#A855F7" // Purple
     }
   ];
 
@@ -182,7 +182,10 @@ export default function Training() {
               {platforms.map((platform, index) => (
                 <Card key={index} className="neumorphic hover:shadow-inner transition-all duration-300 group cursor-pointer">
                   <CardContent className="p-6 text-center">
-                    <div className={`neumorphic w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 ${platform.color} bg-opacity-20`}>
+                    <div 
+                      className="neumorphic w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4"
+                      style={{ backgroundColor: platform.backgroundColor }}
+                    >
                       <img
                         src={platform.logo}
                         alt={`${platform.name} logo`}
