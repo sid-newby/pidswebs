@@ -36,7 +36,7 @@ export default function Training() {
       name: "Relativity",
       description: "Comprehensive legal technology platform for eDiscovery and compliance workflows.",
       logo: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=120&h=120&fit=crop", 
-      color: "bg-green-500"
+      color: "bg-orange-500"
     },
     {
       name: "iConect",
